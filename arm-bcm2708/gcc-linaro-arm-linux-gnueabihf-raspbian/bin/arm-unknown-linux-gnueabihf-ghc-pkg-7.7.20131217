@@ -1,0 +1,12 @@
+#!/bin/sh
+exedir="/home/alberto/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/lib/arm-unknown-linux-gnueabihf-ghc-7.7.20131217/bin"
+exeprog="ghc-pkg"
+executablename="$exedir/$exeprog"
+datadir="/home/alberto/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/share"
+bindir="/home/alberto/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin"
+topdir="/home/alberto/rpi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/lib/arm-unknown-linux-gnueabihf-ghc-7.7.20131217"
+#!/bin/sh
+
+PKGCONF="$topdir/package.conf.d"
+exec "$executablename" --global-package-db "$PKGCONF" ${1+"$@"}
+

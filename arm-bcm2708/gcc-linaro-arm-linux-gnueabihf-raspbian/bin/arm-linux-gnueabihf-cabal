@@ -1,0 +1,24 @@
+#!/bin/bash
+
+CABAL="$HOME/.cabal/bin/cabal"
+TARGET=arm-bcm2708-linux-gnueabi
+HERE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TOOL_PREFIX=`readlink -m "$HERE/../../arm-bcm2708-linux-gnueabi/bin/arm-bcm2708-linux-gnueabi"`
+GHC_TOOL_PREFIX="$HERE/arm-unknown-linux-gnueabihf"
+COMPILE="--with-ghc=${GHC_TOOL_PREFIX}-ghc
+         --with-ghc-pkg=${GHC_TOOL_PREFIX}-ghc-pkg
+         --with-hsc2hs=/usr/bin/hsc2hs
+         --with-gcc=${TOOL_PREFIX}-gcc
+         --with-ld=${TOOL_PREFIX}-ld
+         --with-strip=${TOOL_PREFIX}-strip
+         --hsc2hs-options=--cross-compile"
+CONFIG="--configure-option=--host=$TARGET --disable-shared --with-gcc=${TOOL_PREFIX}-gcc"
+
+case $1 in
+    configure|install) OPTIONS="$COMMON $COMPILE $CONFIG" ;;
+    build) OPTIONS="$COMMON $COMPILE" ;;
+    list|info|update) OPTIONS="" ;;
+    "") OPTIONS="" ;;
+    *) OPTIONS="$COMMON" ;;
+esac
+exec $CABAL $OPTIONS "$@"
